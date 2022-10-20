@@ -99,6 +99,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BookingResponseDto'
+#  /vehicles/{id}:
+#    get:
+#      operationId: getVehicleDetail
+#      summary: Returns a Vehicle details by ID.
+#      tags:
+#        - BookingDetails
+#      parameters:
+#        - name: id
+#          in: path
+#          required: true
+#          schema:
+#            type: string
+#      responses:
+#        '200':
+#          description: Book Details
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/VehicleDto'
+
 components:
   schemas:
     BookingRequestDto:
@@ -144,6 +164,25 @@ components:
         createdDate:
           type: string
           format: date
+    VehicleDto:
+      properties:
+        id:
+          type: string
+        vin:
+          type: string
+        description:
+          type: string
+        model:
+          type: string
+        brand:
+          type: string
+        color:
+          type: string
+        purchaseDate:
+          type: string
+          format: date
+        pricePerDay:
+          type: number
 
 
 

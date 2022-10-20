@@ -1,14 +1,20 @@
 package edu.miu590.bookingservice.service;
 
+import edu.miu590.bookingservice.client.VehicleClient;
 import edu.miu590.bookingservice.entity.BookingDetail;
 import edu.miu590.bookingservice.exception.BookingNotFoundException;
 import edu.miu590.bookingservice.mapper.BookingMapper;
 import edu.miu590.bookingservice.model.BookingRequestDto;
 import edu.miu590.bookingservice.model.BookingResponseDto;
+import edu.miu590.bookingservice.model.VehicleDto;
 import edu.miu590.bookingservice.repository.BookingRepository;
 import edu.miu590.bookingservice.util.ApplicationUtil;
+
+import edu.miu590.bookingservice.util.DateUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,10 +23,12 @@ public class BookingServiceImpl implements BookingService {
 
     private final BookingMapper bookingMapper;
     private final BookingRepository bookingRepository;
+    private final VehicleClient vehicleClient;
 
-    public BookingServiceImpl(BookingMapper bookingMapper, BookingRepository bookingRepository) {
+    public BookingServiceImpl(BookingMapper bookingMapper, BookingRepository bookingRepository, VehicleClient vehicleClient) {
         this.bookingMapper = bookingMapper;
         this.bookingRepository = bookingRepository;
+        this.vehicleClient = vehicleClient;
     }
 
     @Override
@@ -63,13 +71,21 @@ public class BookingServiceImpl implements BookingService {
 
     private BookingDetail createOrSave(String id, BookingRequestDto bookingRequestDto) {
 
+        VehicleDto vehicleDto = vehicleClient.findById(bookingRequestDto.getVehicleId());
+
         BookingDetail bookingDetail = bookingMapper.toEntity(bookingRequestDto);
         if (id == null) {
             bookingDetail.setUserId(ApplicationUtil.getCurrentUser());
         } else {
             bookingDetail.setBookingId(id);
         }
+
+        bookingDetail.setTotalPrice(
+                vehicleDto.getPricePerDay().multiply(DateUtils.getNoOfDaysBetweenPickupAndReturn(bookingRequestDto.getPickupDate(), bookingDetail.getReturnDate()))
+        );
         return bookingRepository.save(bookingDetail);
 
     }
+
+
 }

@@ -4,4 +4,5 @@ public class ApplicationUtil {
     public static String getCurrentUser(){
         return "binodpant.nep@gmail.com";
     }
+
 }
