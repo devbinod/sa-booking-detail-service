@@ -1,0 +1,149 @@
+openapi: 3.0.0
+info:
+  title: Booking Service
+  description: Booking Service
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000/api
+tags:
+  - name: BookingDetails
+
+paths:
+  /bookings:
+    get:
+      operationId: getAllBookingDetail
+      summary: Return list of Booking Detail
+      tags:
+        - BookingDetails
+      responses:
+        '200':
+          description: List of the Booking Details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookingResponseDto'
+    post:
+      operationId: saveBooking
+      summary: Save Booking
+      tags:
+        - BookingDetails
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRequestDto'
+      responses:
+        '201':
+          description: Booking Details Successfully Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponseDto'
+  /bookings/{id}:
+    get:
+      operationId: getBookingDetailById
+      summary: Returns a booking details by ID.
+      tags:
+        - BookingDetails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Book Details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponseDto'
+    delete:
+      operationId: deleteBookingDetailById
+      summary: Delete a Booking by ID.
+      tags:
+        - BookingDetails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully deleted booking details
+    put:
+      operationId: updateBookingDetailById
+      summary: Update Booking Details
+      tags:
+        - BookingDetails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingRequestDto'
+      responses:
+        '201':
+          description: Successfully Updated Booking Details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponseDto'
+components:
+  schemas:
+    BookingRequestDto:
+      required:
+        - vehicleId
+        - pickupDate
+        - returnDate
+      properties:
+        vehicleId:
+          type: string
+        pickupDate:
+          type: string
+          format: date
+        returnDate:
+          type: string
+          format: date
+
+
+    BookingResponseDto:
+      required:
+        - bookingId
+        - vehicleId
+        - pickupDate
+        - returnDate
+        - userId
+        - totalPrice
+        - createdDate
+      properties:
+        bookingId:
+          type: string
+        vehicleId:
+          type: string
+        pickupDate:
+          type: string
+          format: date
+        returnDate:
+          type: string
+          format: date
+        userId:
+          type: string
+        totalPrice:
+          type: number
+        createdDate:
+          type: string
+          format: date
+
+
+
