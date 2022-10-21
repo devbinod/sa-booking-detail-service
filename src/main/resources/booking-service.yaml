@@ -99,6 +99,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BookingResponseDto'
+  /bookings/search:
+    put:
+      operationId: filterBooking
+      summary: Filter Booking based on pickup and return date
+      tags:
+        - BookingDetails
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchBookingDto'
+      responses:
+        '200':
+          description: Return All the booking detail which is not included between pickup and return date
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
 #  /vehicles/{id}:
 #    get:
 #      operationId: getVehicleDetail
@@ -164,6 +185,8 @@ components:
         createdDate:
           type: string
           format: date
+        bookingStatus:
+          $ref: '#/components/schemas/BookingStatus'
     VehicleDto:
       properties:
         id:
@@ -183,6 +206,22 @@ components:
           format: date
         pricePerDay:
           type: number
+
+
+    BookingStatus:
+      type: string
+      enum:
+        - PENDING
+        - COMPLETED
+
+    SearchBookingDto:
+      properties:
+        returnDate:
+          type: string
+          format: date
+        pickupDate:
+          type: string
+          format: date
 
 
 

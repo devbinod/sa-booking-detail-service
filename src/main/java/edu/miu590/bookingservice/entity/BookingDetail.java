@@ -1,6 +1,7 @@
 package edu.miu590.bookingservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.miu590.bookingservice.model.BookingStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,13 +26,15 @@ public class BookingDetail {
     private LocalDate returnDate;
     private String userId;
     private BigDecimal totalPrice;
-
+    @Enumerated(EnumType.STRING)
+    private BookingStatus bookingStatus;
     @Column(updatable = false)
     private LocalDate createdDate;
 
     @PrePersist
-    public void prePersist(){
-        if(this.createdDate == null) this.createdDate = LocalDate.now();
-        if(this.bookingId == null) this.bookingId = UUID.randomUUID().toString();
+    public void prePersist() {
+        if (this.createdDate == null) this.createdDate = LocalDate.now();
+        if (this.bookingId == null) this.bookingId = UUID.randomUUID().toString();
+        if(this.bookingStatus == null) this.bookingStatus = BookingStatus.PENDING;
     }
 }
