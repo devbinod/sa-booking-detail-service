@@ -4,10 +4,7 @@ import edu.miu590.bookingservice.client.VehicleServiceClient;
 import edu.miu590.bookingservice.entity.BookingDetail;
 import edu.miu590.bookingservice.exception.BookingNotFoundException;
 import edu.miu590.bookingservice.mapper.BookingMapper;
-import edu.miu590.bookingservice.model.BookingRequestDto;
-import edu.miu590.bookingservice.model.BookingResponseDto;
-import edu.miu590.bookingservice.model.SearchBookingDto;
-import edu.miu590.bookingservice.model.VehicleDto;
+import edu.miu590.bookingservice.model.*;
 import edu.miu590.bookingservice.repository.BookingRepository;
 import edu.miu590.bookingservice.util.ApplicationUtil;
 
@@ -63,6 +60,14 @@ public class BookingServiceImpl implements BookingService {
         return bookingRepository.findAllBookingBetweenPickUpAndReturnDate(searchBookingDto.getPickupDate(),
                 searchBookingDto.getReturnDate());
 
+    }
+
+
+    @Override
+    public BookingResponseDto updateBookingStatus(BookingUpdateRequestDto bookingUpdateRequestDto) {
+        BookingDetail bookingDetail = getBookingDetailById(bookingUpdateRequestDto.getBookingId());
+        bookingDetail.setBookingStatus(bookingUpdateRequestDto.getBookingStatus());
+        return convertToDto(bookingRepository.save(bookingDetail));
     }
 
     BookingDetail getBookingDetailById(String bookingId) {

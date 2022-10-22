@@ -120,25 +120,26 @@ paths:
                 type: array
                 items:
                   type: string
-#  /vehicles/{id}:
-#    get:
-#      operationId: getVehicleDetail
-#      summary: Returns a Vehicle details by ID.
-#      tags:
-#        - BookingDetails
-#      parameters:
-#        - name: id
-#          in: path
-#          required: true
-#          schema:
-#            type: string
-#      responses:
-#        '200':
-#          description: Book Details
-#          content:
-#            application/json:
-#              schema:
-#                $ref: '#/components/schemas/VehicleDto'
+  /bookings/update/bookingstatus:
+    put:
+      operationId: updateBookingStatus
+      summary: Filter Booking based on pickup and return date
+      tags:
+        - BookingDetails
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookingUpdateRequestDto'
+      responses:
+        '200':
+          description: Successfully Updated Booking Status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingResponseDto'
+
 
 components:
   schemas:
@@ -207,12 +208,21 @@ components:
         pricePerDay:
           type: number
 
+    BookingUpdateRequestDto:
+      properties:
+        bookingId:
+          type: string
+        bookingStatus:
+          $ref: '#/components/schemas/BookingStatus'
+
 
     BookingStatus:
       type: string
       enum:
         - PENDING
         - COMPLETED
+        - FAILED
+
 
     SearchBookingDto:
       properties:
@@ -222,6 +232,8 @@ components:
         pickupDate:
           type: string
           format: date
+
+
 
 
 

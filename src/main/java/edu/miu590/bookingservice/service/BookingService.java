@@ -2,6 +2,7 @@ package edu.miu590.bookingservice.service;
 
 import edu.miu590.bookingservice.model.BookingRequestDto;
 import edu.miu590.bookingservice.model.BookingResponseDto;
+import edu.miu590.bookingservice.model.BookingUpdateRequestDto;
 import edu.miu590.bookingservice.model.SearchBookingDto;
 
 import java.time.LocalDate;
@@ -20,5 +21,7 @@ public interface BookingService {
     List<BookingResponseDto> findAll();
 
     List<String> filterByPickupDateAndReturnDate(SearchBookingDto searchBookingDto);
+
+    BookingResponseDto updateBookingStatus(BookingUpdateRequestDto bookingUpdateRequestDto);
 
 }

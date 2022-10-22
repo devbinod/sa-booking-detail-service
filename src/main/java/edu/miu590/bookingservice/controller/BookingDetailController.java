@@ -4,6 +4,7 @@ import edu.miu590.bookingservice.api.BookingsApi;
 import edu.miu590.bookingservice.model.BookingRequestDto;
 import edu.miu590.bookingservice.model.BookingResponseDto;
 
+import edu.miu590.bookingservice.model.BookingUpdateRequestDto;
 import edu.miu590.bookingservice.model.SearchBookingDto;
 import edu.miu590.bookingservice.service.BookingService;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +52,8 @@ public class BookingDetailController implements BookingsApi {
         return ResponseEntity.ok(bookingService.filterByPickupDateAndReturnDate(searchBookingDto));
     }
 
-
+    @Override
+    public ResponseEntity<BookingResponseDto> updateBookingStatus(BookingUpdateRequestDto bookingUpdateRequestDto) {
+        return ResponseEntity.ok(bookingService.updateBookingStatus(bookingUpdateRequestDto));
+    }
 }
