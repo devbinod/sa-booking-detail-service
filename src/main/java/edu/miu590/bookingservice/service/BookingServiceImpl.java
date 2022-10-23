@@ -5,6 +5,7 @@ import edu.miu590.bookingservice.entity.BookingDetail;
 import edu.miu590.bookingservice.exception.BookingNotFoundException;
 import edu.miu590.bookingservice.mapper.BookingMapper;
 import edu.miu590.bookingservice.model.*;
+import edu.miu590.bookingservice.producers.NotificationProducer;
 import edu.miu590.bookingservice.repository.BookingRepository;
 import edu.miu590.bookingservice.util.ApplicationUtil;
 
@@ -21,11 +22,13 @@ public class BookingServiceImpl implements BookingService {
     private final BookingMapper bookingMapper;
     private final BookingRepository bookingRepository;
     private final VehicleServiceClient vehicleClient;
+    private final NotificationProducer notificationProducer;
 
-    public BookingServiceImpl(BookingMapper bookingMapper, BookingRepository bookingRepository, VehicleServiceClient vehicleClient) {
+    public BookingServiceImpl(BookingMapper bookingMapper, BookingRepository bookingRepository, VehicleServiceClient vehicleClient, NotificationProducer notificationProducer) {
         this.bookingMapper = bookingMapper;
         this.bookingRepository = bookingRepository;
         this.vehicleClient = vehicleClient;
+        this.notificationProducer = notificationProducer;
     }
 
     @Override
@@ -67,7 +70,19 @@ public class BookingServiceImpl implements BookingService {
     public BookingResponseDto updateBookingStatus(BookingUpdateRequestDto bookingUpdateRequestDto) {
         BookingDetail bookingDetail = getBookingDetailById(bookingUpdateRequestDto.getBookingId());
         bookingDetail.setBookingStatus(bookingUpdateRequestDto.getBookingStatus());
-        return convertToDto(bookingRepository.save(bookingDetail));
+        BookingResponseDto bookingResponseDto = convertToDto(bookingRepository.save(bookingDetail));
+
+
+        notificationProducer.sendNotification(
+                NotificationEmailDto.builder()
+                        .bookingStatus(bookingUpdateRequestDto.getBookingStatus())
+                        .email(bookingUpdateRequestDto.getEmail())
+                        .totalPrice(bookingResponseDto.getTotalPrice())
+                        .build()
+        );
+
+        return bookingResponseDto;
+
     }
 
     BookingDetail getBookingDetailById(String bookingId) {

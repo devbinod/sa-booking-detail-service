@@ -236,7 +236,14 @@ components:
         pickupDate:
           type: string
           format: date
-
+    NotificationEmailDto:
+      properties:
+        totalPrice:
+          type: number
+        email:
+          type: string
+        bookingStatus:
+          $ref: '#/components/schemas/BookingStatus'
 
 
 

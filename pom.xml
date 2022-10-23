@@ -132,12 +132,15 @@
 							<generatorName>spring</generatorName>
 							<apiPackage>edu.miu590.bookingservice.api</apiPackage>
 							<modelPackage>edu.miu590.bookingservice.model</modelPackage>
+
 							<!--                            <supportingFilesToGenerate>-->
 							<!--                                ApiUtil.java-->
 							<!--                            </supportingFilesToGenerate>-->
 							<configOptions>
 								<sourceFolder>src/java/main</sourceFolder>
 								<interfaceOnly>true</interfaceOnly>
+								<additionalModelTypeAnnotations>@lombok.Builder @lombok.NoArgsConstructor @lombok.AllArgsConstructor</additionalModelTypeAnnotations>
+
 							</configOptions>
 						</configuration>
 					</execution>
