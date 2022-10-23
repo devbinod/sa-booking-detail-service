@@ -212,6 +212,10 @@ components:
       properties:
         bookingId:
           type: string
+        email:
+          type: string
+        totalPrice:
+          type: number
         bookingStatus:
           $ref: '#/components/schemas/BookingStatus'
 
