@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface VehicleServiceClient {
 
 
-    @GetMapping("/vehicles/{id}")
+    @GetMapping("/{id}")
     public VehicleDto findById(@PathVariable String id);
 }
