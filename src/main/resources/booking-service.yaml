@@ -245,6 +245,13 @@ components:
         bookingStatus:
           $ref: '#/components/schemas/BookingStatus'
 
+    UserVerifyDto:
+      required:
+        - email
+      properties:
+        email:
+          type: string
+
 
 
 
