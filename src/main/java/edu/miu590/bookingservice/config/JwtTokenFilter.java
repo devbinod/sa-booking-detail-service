@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
 
-    private static final String jwtPrefix="Bearer ";
+    private static final String JWT_PREFIx="Bearer ";
 
     @Value("${jwt.secret}")
     private String jwtSecret;
@@ -48,7 +48,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        String token = authorizationHeader.replace(jwtPrefix, "");
+        String token = authorizationHeader.replace(JWT_PREFIx, "");
         try {
             Jws<Claims> claimsJws = Jwts.parserBuilder()
                     .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
