@@ -28,8 +28,7 @@ import java.util.stream.Collectors;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
 
-    @Value("${jwt.prefix}")
-    private String jwtPrefix;
+    private static final String jwtPrefix="Bearer ";
 
     @Value("${jwt.secret}")
     private String jwtSecret;
