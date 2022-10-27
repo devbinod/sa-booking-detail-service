@@ -28,8 +28,8 @@ public class SecurityConfig {
                 .addFilterAfter(jwtTokenFilter, BasicAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/api/auth/verify", "/actuator/**", "/", "/health").permitAll()
-                .antMatchers("/v3/api-docs/**", "/configuration/ui", "/swagger-resources/**", "/configuration/security",//swagger
-                        "/swagger-ui/**", "/webjars/**").permitAll()
+                .antMatchers("/api/bookings/v3/api-docs/**", "/api/bookings/configuration/ui", "/api/bookings/swagger-resources/**", "/api/bookings/configuration/security",//swagger
+                        "/api/bookings/swagger-ui/**", "/webjars/**").permitAll()
                 .antMatchers("/api/bookings/v3/api-docs/swagger-config","/api/bookings/swagger-ui.html").permitAll()
                 .antMatchers("/api/bookings/swagger-ui/index.html").permitAll()
                 .antMatchers("/**").authenticated()
